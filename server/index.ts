@@ -342,11 +342,22 @@ app.get('/health', (_req, res) => {
 
 // Serve index.html for SPA routing
 app.get('*', (_req, res) => {
-  if (process.env.NODE_ENV === 'production') {
-    res.sendFile(path.join(__dirname, '../client/index.html'));
-  } else {
-    res.sendFile(path.join(__dirname, '../dist/client/index.html'));
-  }
+  const isProd = process.env.NODE_ENV === 'production';
+  const indexPath = isProd 
+    ? path.join(__dirname, '../client/index.html')
+    : path.join(__dirname, '../dist/client/index.html');
+  
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      if (isProd) {
+        console.error('Error sending index.html:', err);
+        res.status(500).send('Server Error');
+      } else {
+        // In dev, just send a friendly message if dist is missing
+        res.status(404).send('Frontend not built. Run "npm run build" or use Vite dev server on port 5173.');
+      }
+    }
+  });
 });
 
 // Start server
