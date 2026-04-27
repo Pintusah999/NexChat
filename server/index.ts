@@ -25,15 +25,8 @@ const io = new Server(httpServer, {
 app.use(cors());
 app.use(express.json());
 
-// Serve static files in production
-if (process.env.NODE_ENV === 'production') {
-  const clientPath = path.join(__dirname, '../client');
-  app.use(express.static(clientPath));
-} else {
-  // Local dev static path (relative to server/index.ts)
-  const clientPath = path.join(__dirname, '../dist/client');
-  app.use(express.static(clientPath));
-}
+
+
 
 // Store active connections
 interface UserSession {
@@ -335,6 +328,15 @@ app.get('/api/recommendations', (_req, res) => {
   res.json(shuffled);
 });
 
+// Serve static files
+const DIST_PATH = path.join(process.cwd(), 'dist/client');
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(DIST_PATH));
+} else {
+  app.use(express.static(DIST_PATH));
+}
+
 // Health check endpoint
 app.get('/health', (_req, res) => {
   res.status(200).send('OK');
@@ -342,20 +344,12 @@ app.get('/health', (_req, res) => {
 
 // Serve index.html for SPA routing
 app.get('*', (_req, res) => {
-  const isProd = process.env.NODE_ENV === 'production';
-  const indexPath = isProd 
-    ? path.join(__dirname, '../client/index.html')
-    : path.join(__dirname, '../dist/client/index.html');
+  const indexPath = path.join(DIST_PATH, 'index.html');
   
   res.sendFile(indexPath, (err) => {
     if (err) {
-      if (isProd) {
-        console.error('Error sending index.html:', err);
-        res.status(500).send('Server Error');
-      } else {
-        // In dev, just send a friendly message if dist is missing
-        res.status(404).send('Frontend not built. Run "npm run build" or use Vite dev server on port 5173.');
-      }
+      console.error('Error sending index.html:', err);
+      res.status(404).send('Frontend not built. Please run "npm run build" first.');
     }
   });
 });
