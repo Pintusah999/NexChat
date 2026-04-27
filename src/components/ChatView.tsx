@@ -85,10 +85,10 @@ function ChatView() {
   };
 
   return (
-    <div className="flex h-screen bg-primary">
+    <div className="flex flex-col md:flex-row h-screen bg-primary">
       {/* Sidebar */}
       <motion.div
-        className="w-80 border-r border-pink-100 bg-rose-50/50 backdrop-blur-sm flex flex-col"
+        className="w-full md:w-80 border-b md:border-b-0 md:border-r border-pink-100 bg-rose-50/50 backdrop-blur-sm flex flex-col z-30"
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
       >
@@ -245,11 +245,11 @@ function ChatView() {
         {/* Floating Music Player */}
         {showMusicPlayer && (
           <motion.div
-            className="absolute top-4 right-4 w-[400px] h-[650px] max-h-[calc(100vh-2rem)] bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgba(255,77,109,0.2)] border border-pink-100/50 flex flex-col z-50 overflow-hidden"
-            initial={{ scale: 0.8, opacity: 0, x: 20, y: -20 }}
-            animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
-            exit={{ scale: 0.8, opacity: 0, x: 20, y: -20 }}
-            transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+            className="fixed md:absolute top-4 bottom-4 md:bottom-auto right-4 left-4 md:left-auto md:w-[400px] md:h-[650px] md:max-h-[calc(100vh-2rem)] bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_20px_60px_rgba(255,77,109,0.3)] border border-white flex flex-col z-[70] overflow-hidden"
+            initial={{ scale: 0.8, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
           >
             {/* Header for Floating UI */}
             <div className="p-4 bg-gradient-to-r from-accent to-accent-light flex justify-between items-center text-white shadow-md">
@@ -273,7 +273,7 @@ function ChatView() {
 
       {/* Right Side Action Bar (Floating Buttons) */}
       <motion.div
-        className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-[60]"
+        className="hidden md:flex fixed right-4 top-1/2 -translate-y-1/2 flex-col gap-3 z-[60]"
         initial={{ x: 50, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
       >

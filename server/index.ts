@@ -19,6 +19,7 @@ const io = new Server(httpServer, {
     origin: '*',
     methods: ['GET', 'POST'],
   },
+  transports: ['websocket'],
 });
 
 // Middleware

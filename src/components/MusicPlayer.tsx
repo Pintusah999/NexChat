@@ -270,7 +270,7 @@ function MusicPlayer() {
             }`}
           >
             <span>{tab.icon}</span>
-            <span>{tab.label}</span>
+            <span className="hidden sm:inline">{tab.label}</span>
           </button>
         ))}
       </div>

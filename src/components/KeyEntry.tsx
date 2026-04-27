@@ -46,7 +46,7 @@ function KeyEntry() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="card p-8 space-y-6">
+        <div className="card p-6 md:p-8 space-y-6">
           {/* Logo/Title */}
           <motion.div
             className="text-center"

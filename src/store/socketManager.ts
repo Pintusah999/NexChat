@@ -17,6 +17,7 @@ export function initializeSocket(): Socket {
     : 'http://localhost:3000');
 
   socket = io(socketUrl, {
+    transports: ['websocket'],
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionDelayMax: 5000,
