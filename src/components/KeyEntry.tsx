@@ -39,7 +39,7 @@ function KeyEntry() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-primary via-secondary to-primary px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 px-4">
       <motion.div
         className="w-full max-w-md"
         initial={{ opacity: 0, scale: 0.95 }}
@@ -54,10 +54,10 @@ function KeyEntry() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 }}
           >
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent">
-              NexChat
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent tracking-tight">
+              Our Space
             </h1>
-            <p className="text-slate-400 mt-2 text-sm">Zero-login peer-to-peer chat</p>
+            <p className="text-slate-500 mt-2 text-sm font-medium">A private, beautiful space for just the two of you.</p>
           </motion.div>
 
           {/* Key Section */}
@@ -67,13 +67,13 @@ function KeyEntry() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            <label className="block text-sm font-medium text-slate-300">Your NexChat Key</label>
+            <label className="block text-sm font-bold text-slate-700">Your Secret Connection Key</label>
             <div className="flex gap-2">
               <input
                 type="text"
                 value={inputKey}
                 onChange={(e) => setInputKey(e.target.value.toUpperCase())}
-                placeholder="NX-XXXX-XXXX"
+                placeholder="Our Secret Code"
                 className="input-field flex-1"
                 maxLength={14}
               />
@@ -86,7 +86,7 @@ function KeyEntry() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                🔄 Generate
+                ✨ New Key
               </motion.button>
               <motion.button
                 onClick={handleCopyKey}
@@ -94,11 +94,11 @@ function KeyEntry() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                {showCopyFeedback ? '✓ Copied!' : '📋 Copy'}
+                {showCopyFeedback ? '✓ Copied!' : '💌 Copy Key'}
               </motion.button>
             </div>
 
-            <p className="text-xs text-slate-500 mt-2">
+            <p className="text-xs text-slate-400 mt-2 font-medium">
               Share your key with others to connect. Keep it private!
             </p>
           </motion.div>
@@ -110,12 +110,12 @@ function KeyEntry() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <label className="block text-sm font-medium text-slate-300">Your Nickname</label>
+            <label className="block text-sm font-bold text-slate-700">How should they call you?</label>
             <input
               type="text"
               value={nickname}
               onChange={(e) => setNicknameLocal(e.target.value)}
-              placeholder="Enter a nickname"
+              placeholder="Your cute nickname"
               className="input-field"
               maxLength={20}
             />
@@ -131,19 +131,19 @@ function KeyEntry() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
           >
-            Enter Chat
+            💕 Connect
           </motion.button>
 
           {/* Info */}
           <motion.div
-            className="text-xs text-slate-500 text-center space-y-1 pt-4 border-t border-slate-700"
+            className="text-xs text-slate-400 font-medium text-center space-y-1 pt-4 border-t border-pink-100"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <p>📱 Works on desktop and mobile</p>
-            <p>🔐 All connections are peer-to-peer</p>
-            <p>⚡ No sign-up required</p>
+            <p>🥂 A private space for your moments</p>
+            <p>🔐 End-to-end encrypted peer-to-peer connection</p>
+            <p>✨ Just for the two of you</p>
           </motion.div>
         </div>
       </motion.div>

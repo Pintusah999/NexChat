@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#0F172A',
-        secondary: '#1E293B',
-        accent: '#3B82F6',
-        'accent-light': '#60A5FA',
+        primary: '#fff0f3',
+        secondary: '#ffffff',
+        accent: '#ff4d6d',
+        'accent-light': '#ff8fa3',
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in',
@@ -35,8 +35,9 @@ export default {
         xs: '2px',
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(59, 130, 246, 0.5)',
-        'glow-lg': '0 0 40px rgba(59, 130, 246, 0.3)',
+        'glow': '0 10px 30px rgba(255, 77, 109, 0.2)',
+        'glow-lg': '0 20px 40px rgba(255, 77, 109, 0.15)',
+        'soft': '0 4px 20px rgba(255, 143, 163, 0.15)',
       },
     },
   },

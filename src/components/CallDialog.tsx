@@ -16,7 +16,7 @@ function CallDialog() {
 
   return (
     <motion.div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -27,9 +27,9 @@ function CallDialog() {
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.9, y: 20, opacity: 0 }}
       >
-        <h2 className="text-2xl font-bold mb-4">Start Call</h2>
-        <p className="text-slate-300 mb-6">
-          Call with <span className="font-semibold">{peerName}</span>?
+        <h2 className="text-2xl font-bold mb-4 text-slate-800">Call Your Partner</h2>
+        <p className="text-slate-500 mb-6 font-medium">
+          Connect with <span className="font-semibold text-accent">{peerName}</span> 💕
         </p>
 
         <div className="grid grid-cols-2 gap-3 mb-6">
@@ -38,16 +38,16 @@ function CallDialog() {
               setCallType('voice');
               handleInitiateCall('voice');
             }}
-            className={`p-4 rounded-lg border-2 transition-all ${
+            className={`p-4 rounded-2xl border-2 transition-all ${
               callType === 'voice'
-                ? 'border-accent bg-accent/20'
-                : 'border-slate-600 hover:border-accent'
+                ? 'border-accent bg-accent/10 shadow-soft'
+                : 'border-pink-100 hover:border-pink-300'
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <div className="text-2xl mb-1">🎙️</div>
-            <p className="text-sm font-medium">Voice</p>
+            <p className={`text-sm font-bold ${callType === 'voice' ? 'text-accent' : 'text-slate-500'}`}>Voice</p>
           </motion.button>
 
           <motion.button
@@ -55,16 +55,16 @@ function CallDialog() {
               setCallType('video');
               handleInitiateCall('video');
             }}
-            className={`p-4 rounded-lg border-2 transition-all ${
+            className={`p-4 rounded-2xl border-2 transition-all ${
               callType === 'video'
-                ? 'border-accent bg-accent/20'
-                : 'border-slate-600 hover:border-accent'
+                ? 'border-accent bg-accent/10 shadow-soft'
+                : 'border-pink-100 hover:border-pink-300'
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <div className="text-2xl mb-1">📹</div>
-            <p className="text-sm font-medium">Video</p>
+            <p className={`text-sm font-bold ${callType === 'video' ? 'text-accent' : 'text-slate-500'}`}>Video</p>
           </motion.button>
         </div>
 

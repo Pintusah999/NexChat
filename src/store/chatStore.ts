@@ -51,6 +51,7 @@ interface ChatStore {
   selectedPeer: string | null;
   showSettings: boolean;
   showCallDialog: boolean;
+  incomingCall: { from: string; from_nickname: string; offer: any; isVideo: boolean } | null;
   
   // Media state
   localStream: MediaStream | null;
@@ -75,6 +76,8 @@ interface ChatStore {
   setSelectedPeer: (key: string | null) => void;
   setShowSettings: (show: boolean) => void;
   setShowCallDialog: (show: boolean) => void;
+  setIncomingCall: (call: ChatStore['incomingCall']) => void;
+  clearIncomingCall: () => void;
   setLocalStream: (stream: MediaStream | null) => void;
   addRemoteStream: (key: string, stream: MediaStream) => void;
   removeRemoteStream: (key: string) => void;
@@ -97,6 +100,7 @@ const initialState = {
   selectedPeer: null,
   showSettings: false,
   showCallDialog: false,
+  incomingCall: null,
   localStream: null,
   remoteStreams: new Map<string, MediaStream>(),
   audioEnabled: false,
@@ -187,6 +191,14 @@ export const useChatStore = create<ChatStore>((set) => ({
 
   setShowCallDialog: (show: boolean) => {
     set({ showCallDialog: show });
+  },
+
+  setIncomingCall: (call: ChatStore['incomingCall']) => {
+    set({ incomingCall: call });
+  },
+
+  clearIncomingCall: () => {
+    set({ incomingCall: null });
   },
 
   setLocalStream: (stream: MediaStream | null) => {

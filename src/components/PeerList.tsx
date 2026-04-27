@@ -12,9 +12,9 @@ function PeerList({ peers, selectedPeer, onSelectPeer }: PeerListProps) {
 
   if (peerArray.length === 0) {
     return (
-      <div className="p-4 text-center text-slate-500 text-sm">
-        <p>No peers connected</p>
-        <p className="text-xs mt-2">Share your key to invite others</p>
+      <div className="p-4 text-center text-slate-400 text-sm font-medium">
+        <p>Waiting for your partner...</p>
+        <p className="text-xs mt-2 text-slate-500">Share your connection key to invite them 💕</p>
       </div>
     );
   }
@@ -25,10 +25,10 @@ function PeerList({ peers, selectedPeer, onSelectPeer }: PeerListProps) {
         <motion.button
           key={peer.key}
           onClick={() => onSelectPeer(peer.key)}
-          className={`w-full p-3 text-left transition-colors ${
+          className={`w-full p-3 text-left transition-colors rounded-xl mb-1 ${
             selectedPeer === peer.key
-              ? 'bg-accent/20 border-l-2 border-accent'
-              : 'hover:bg-slate-800'
+              ? 'bg-accent/10 border-l-4 border-accent'
+              : 'hover:bg-primary/50 border-l-4 border-transparent'
           }`}
           whileHover={{ x: 4 }}
           whileTap={{ x: 2 }}

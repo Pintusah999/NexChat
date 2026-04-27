@@ -88,28 +88,28 @@ function ChatView() {
     <div className="flex h-screen bg-primary">
       {/* Sidebar */}
       <motion.div
-        className="w-80 border-r border-slate-700 flex flex-col"
+        className="w-80 border-r border-pink-100 bg-rose-50/50 backdrop-blur-sm flex flex-col"
         initial={{ x: -20, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
       >
         {/* Header */}
-        <div className="p-4 border-b border-slate-700 space-y-2">
+        <div className="p-4 border-b border-pink-100 space-y-2">
           <div>
-            <p className="text-xs text-slate-500">Your Key</p>
+            <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Your Connection Key</p>
             <div className="flex items-center gap-2 mt-1">
-              <code className="text-sm font-mono bg-slate-900 px-2 py-1 rounded flex-1 text-accent">
+              <code className="text-sm font-mono bg-pink-100 px-3 py-1.5 rounded-lg flex-1 text-accent font-semibold border border-pink-200">
                 {myKey}
               </code>
               <button
                 onClick={() => navigator.clipboard.writeText(myKey)}
-                className="p-2 hover:bg-slate-800 rounded transition-colors"
+                className="p-2 hover:bg-pink-100 rounded-lg transition-colors text-slate-500"
                 title="Copy key"
               >
                 📋
               </button>
             </div>
           </div>
-          <p className="text-sm text-slate-400">Hello, {myNickname}!</p>
+          <p className="text-sm text-slate-700 font-bold mt-2">Welcome, {myNickname} 💕</p>
         </div>
 
         {/* Peers List */}
@@ -122,7 +122,7 @@ function ChatView() {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-700 space-y-2">
+        <div className="p-4 border-t border-pink-100 space-y-2">
           <motion.button
             onClick={() => setShowMusicPlayer(!showMusicPlayer)}
             className={`w-full text-sm transition-all ${
@@ -131,7 +131,7 @@ function ChatView() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            🎵 Music Player
+            Play Music 🎵
           </motion.button>
           <motion.button
             onClick={handleInitiateCall}
@@ -147,33 +147,31 @@ function ChatView() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            🚪 Exit
+            Leave Space 🚪
           </motion.button>
         </div>
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
-        {showMusicPlayer ? (
-          <MusicPlayer />
-        ) : selectedPeer ? (
+      <div className="flex-1 flex flex-col relative overflow-hidden">
+        {selectedPeer ? (
           <>
             {/* Chat Header */}
             <motion.div
-              className="p-4 border-b border-slate-700 flex justify-between items-center"
+              className="p-4 border-b border-pink-100 bg-white/60 backdrop-blur-md flex justify-between items-center shadow-sm z-10"
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
             >
               <div>
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg font-bold text-slate-800">
                   {connectedPeers.get(selectedPeer)?.nickname || 'Unknown'}
                 </h2>
-                <p className="text-xs text-slate-500">{selectedPeer}</p>
+                <p className="text-xs text-slate-500 font-medium">{selectedPeer}</p>
               </div>
               <div className="flex gap-2">
                 <motion.button
                   onClick={handleInitiateCall}
-                  className="p-2 hover:bg-slate-800 rounded transition-colors"
+                  className="p-2 hover:bg-pink-100 rounded-xl transition-colors"
                   whileHover={{ scale: 1.1 }}
                   title="Voice call"
                 >
@@ -181,7 +179,7 @@ function ChatView() {
                 </motion.button>
                 <motion.button
                   onClick={handleInitiateCall}
-                  className="p-2 hover:bg-slate-800 rounded transition-colors"
+                  className="p-2 hover:bg-pink-100 rounded-xl transition-colors"
                   whileHover={{ scale: 1.1 }}
                   title="Video call"
                 >
@@ -200,7 +198,7 @@ function ChatView() {
 
             {/* Message Input */}
             <motion.div
-              className="p-4 border-t border-slate-700"
+              className="p-4 border-t border-pink-100 bg-white/60 backdrop-blur-md"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
             >
@@ -230,20 +228,85 @@ function ChatView() {
             </motion.div>
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center text-slate-400">
+          <div className="flex-1 flex items-center justify-center text-slate-500 bg-rose-50/30">
             <motion.div
               className="text-center"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
             >
-              <p className="text-lg">No peer selected</p>
-              <p className="text-sm text-slate-500 mt-2">
-                Select a peer from the sidebar to start chatting
+              <p className="text-2xl font-bold text-slate-700">Ready to connect 💕</p>
+              <p className="text-sm text-slate-500 mt-2 font-medium">
+                Select your partner from the sidebar to start chatting
               </p>
             </motion.div>
           </div>
         )}
+
+        {/* Floating Music Player */}
+        {showMusicPlayer && (
+          <motion.div
+            className="absolute top-4 right-4 w-[400px] h-[650px] max-h-[calc(100vh-2rem)] bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_50px_rgba(255,77,109,0.2)] border border-pink-100/50 flex flex-col z-50 overflow-hidden"
+            initial={{ scale: 0.8, opacity: 0, x: 20, y: -20 }}
+            animate={{ scale: 1, opacity: 1, x: 0, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, x: 20, y: -20 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+          >
+            {/* Header for Floating UI */}
+            <div className="p-4 bg-gradient-to-r from-accent to-accent-light flex justify-between items-center text-white shadow-md">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🎵</span>
+                <span className="font-bold tracking-tight">Our Playlist</span>
+              </div>
+              <button
+                onClick={() => setShowMusicPlayer(false)}
+                className="p-1.5 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <MusicPlayer />
+            </div>
+          </motion.div>
+        )}
       </div>
+
+      {/* Right Side Action Bar (Floating Buttons) */}
+      <motion.div
+        className="fixed right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-[60]"
+        initial={{ x: 50, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+      >
+        <motion.button
+          onClick={() => setShowMusicPlayer(!showMusicPlayer)}
+          className={`w-12 h-12 rounded-2xl shadow-lg flex items-center justify-center text-xl transition-all ${
+            showMusicPlayer ? 'bg-accent text-white' : 'bg-white text-accent border border-pink-100'
+          }`}
+          whileHover={{ scale: 1.1, x: -5 }}
+          whileTap={{ scale: 0.9 }}
+          title="Music Player"
+        >
+          🎵
+        </motion.button>
+        <motion.button
+          onClick={handleInitiateCall}
+          className="w-12 h-12 bg-white text-accent border border-pink-100 rounded-2xl shadow-lg flex items-center justify-center text-xl"
+          whileHover={{ scale: 1.1, x: -5 }}
+          whileTap={{ scale: 0.9 }}
+          title="Start Call"
+        >
+          📞
+        </motion.button>
+        <motion.button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="w-12 h-12 bg-white text-slate-500 border border-slate-100 rounded-2xl shadow-lg flex items-center justify-center text-xl"
+          whileHover={{ scale: 1.1, x: -5 }}
+          whileTap={{ scale: 0.9 }}
+          title="Scroll to Top"
+        >
+          🔝
+        </motion.button>
+      </motion.div>
 
       {/* Call Dialog */}
       {showCallDialog && <CallDialog />}

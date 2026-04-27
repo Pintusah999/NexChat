@@ -39,14 +39,14 @@ function MessageList({ messages, myKey }: MessageListProps) {
             className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={`max-w-xs px-4 py-2 rounded-lg ${
+              className={`max-w-xs px-4 py-2.5 rounded-2xl shadow-sm ${
                 isOwn
-                  ? 'bg-accent text-white rounded-br-none'
-                  : 'bg-slate-700 text-slate-100 rounded-bl-none'
+                  ? 'bg-gradient-to-r from-accent to-accent-light text-white rounded-br-sm'
+                  : 'bg-rose-50 text-slate-800 rounded-bl-sm border border-pink-100'
               }`}
             >
-              <p className="text-sm break-words">{msg.content}</p>
-              <p className={`text-xs mt-1 ${isOwn ? 'text-blue-100' : 'text-slate-400'}`}>
+              <p className="text-sm font-medium break-words leading-relaxed">{msg.content}</p>
+              <p className={`text-xs mt-1 ${isOwn ? 'text-white/90' : 'text-slate-500'}`}>
                 {formatTime(msg.timestamp)}
               </p>
             </div>

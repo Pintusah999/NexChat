@@ -4,9 +4,12 @@ import { useChatStore } from '../store/chatStore';
 import { sendSignal } from '../store/socketManager';
 import { getMediaStream, stopMediaStream } from '../utils/mediaStream';
 import {
+    addIceCandidate,
     addMediaTracks,
+    createAnswer,
     createOffer,
     createPeerConnection,
+    setRemoteDescription,
 } from '../utils/webrtc';
 
 function CallView() {
@@ -15,11 +18,13 @@ function CallView() {
     localStream,
     audioEnabled,
     videoEnabled,
+    incomingCall,
     setLocalStream,
     toggleAudio,
     toggleVideo,
     setCurrentView,
     addRemoteStream,
+    clearIncomingCall,
   } = useChatStore();
 
   const [callDuration, setCallDuration] = useState(0);
@@ -30,10 +35,14 @@ function CallView() {
 
   // Initialize local stream and peer connection
   useEffect(() => {
+    let activeStream: MediaStream | null = null;
+    let peerConnection: RTCPeerConnection | null = null;
+
     const initializeCall = async () => {
       try {
         const mediaType = videoEnabled ? 'both' : 'audio';
         const stream = await getMediaStream(mediaType);
+        activeStream = stream;
         setLocalStream(stream);
 
         if (localVideoRef.current) {
@@ -41,7 +50,7 @@ function CallView() {
         }
 
         // Create peer connection
-        const peerConnection = createPeerConnection();
+        peerConnection = createPeerConnection();
         peerConnectionRef.current = peerConnection;
         addMediaTracks(peerConnection, stream);
 
@@ -53,9 +62,27 @@ function CallView() {
           addRemoteStream(selectedPeer || '', event.streams[0]);
         };
 
-        // Send offer
-        const offer = await createOffer(peerConnection);
-        sendSignal(selectedPeer || '', offer);
+        // Handle local ICE candidates
+        peerConnection.onicecandidate = (event) => {
+          if (event.candidate) {
+            sendSignal(selectedPeer || '', {
+              type: 'ice-candidate',
+              candidate: event.candidate,
+            });
+          }
+        };
+
+        if (incomingCall) {
+          // We are the receiver: accept the offer and send an answer
+          await setRemoteDescription(peerConnection, incomingCall.offer);
+          const answer = await createAnswer(peerConnection);
+          sendSignal(selectedPeer || '', answer);
+          clearIncomingCall();
+        } else {
+          // We are the caller: create and send an offer
+          const offer = await createOffer(peerConnection);
+          sendSignal(selectedPeer || '', { ...offer, isVideo: videoEnabled });
+        }
       } catch (error) {
         console.error('Failed to initialize call:', error);
         alert('Unable to access microphone/camera');
@@ -66,10 +93,33 @@ function CallView() {
     initializeCall();
 
     return () => {
-      if (localStream) {
-        stopMediaStream(localStream);
+      if (activeStream) {
+        stopMediaStream(activeStream);
+      }
+      if (peerConnection) {
+        peerConnection.close();
       }
     };
+  }, []);
+
+  // Handle incoming RTC signals (Answer, ICE candidates)
+  useEffect(() => {
+    const handleRtcSignal = async (e: Event) => {
+      const customEvent = e as CustomEvent;
+      const { signal } = customEvent.detail;
+      const pc = peerConnectionRef.current;
+      
+      if (!pc) return;
+
+      if (signal.type === 'answer') {
+        await setRemoteDescription(pc, signal);
+      } else if (signal.type === 'ice-candidate') {
+        await addIceCandidate(pc, signal.candidate);
+      }
+    };
+
+    window.addEventListener('rtc-signal', handleRtcSignal);
+    return () => window.removeEventListener('rtc-signal', handleRtcSignal);
   }, []);
 
   // Call duration timer
